@@ -1,18 +1,19 @@
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
-import java.awt.Graphics;
+import java.awt.*;
+import java.awt.geom.*;
+import java.lang.Math;
 
-class SpriteComponent implements Component {
+class Sprite implements Component {
     
     BufferedImage sprite;
     GameObject parent;
     Scene scene;
 
-    public SpriteComponent(Scene scene, GameObject parent, String imagePath) {
+    public Sprite(Scene scene, GameObject parent, String imagePath) {
         this.scene = scene;
         this.parent = parent;
-
         //attempt to load the image from a file
         try {
             this.sprite = ImageIO.read(new File(imagePath));
@@ -21,12 +22,7 @@ class SpriteComponent implements Component {
         }
     }
 
-    private void draw() {
-        Graphics g = this.scene.buffer;
-        g.drawImage(this.sprite, this.parent.x, this.parent.y, this.sprite.getWidth(), this.sprite.getHeight(), null);
-    }
-
     public void update() {
-        draw();
+        this.scene.drawSprite(this.sprite, this.parent.position, this.parent.rotation);
     }
 }
