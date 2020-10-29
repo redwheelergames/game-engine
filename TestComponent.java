@@ -9,7 +9,8 @@ class TestComponent implements Component {
     }
 
     public void update() {
-        Vector2D<Double> forward = this.parent.getForwardVector();
+        Vector2D forward = this.parent.getForwardVector();
+        System.out.println(this.parent.position.x+", "+this.parent.position.y);
         //System.out.println (this.parent.rotation);
     }
 }

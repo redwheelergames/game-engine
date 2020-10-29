@@ -21,12 +21,12 @@ class Scene extends JPanel implements KeyListener, MouseMotionListener, ActionLi
     private Image offscreen;
     public double deltaTime;
     public ArrayList<GameObject> gameObjects; 
-    public Vector2D<Integer> mousePosition;
+    public Vector2D mousePosition;
     public int windowWidth;
     public int windowHeight;
 
     public Scene(int windowWidth, int windowHeight) {
-        this.mousePosition = new Vector2D<Integer> (0, 0);
+        this.mousePosition = new Vector2D (0, 0);
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
         this.gameObjects = new ArrayList<GameObject>();
@@ -69,9 +69,9 @@ class Scene extends JPanel implements KeyListener, MouseMotionListener, ActionLi
         this.buffer.fillRect(0, 0, this.windowWidth, this.windowHeight);
     }
 
-    public void drawSprite (BufferedImage sprite, Vector2D<Integer> position, int rotation) {
-        int x = position.x - sprite.getWidth()/2;
-        int y = this.windowHeight - position.y - sprite.getHeight()/2;
+    public void drawSprite (BufferedImage sprite, Vector2D position, int rotation) {
+        int x = (int)Math.rint(position.x - sprite.getWidth()/2);
+        int y = (int)Math.rint(this.windowHeight - position.y - sprite.getHeight()/2);
         // Rotate the given rotation offset by 90 (90 means no rotation)
         this.buffer.rotate(Math.toRadians(-1*(rotation-90)), x, y);
         this.buffer.drawImage(sprite, x, y, sprite.getWidth(), sprite.getHeight(), null);
