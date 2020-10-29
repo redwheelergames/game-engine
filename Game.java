@@ -21,6 +21,7 @@ class Game extends JFrame{
 
         scene.addGameObject(background);
         scene.addGameObject(character);
+        character.getComponent(Sprite.class);
 
         game.run();
     }
