@@ -16,9 +16,9 @@ class Scene extends JPanel implements KeyListener, MouseMotionListener, ActionLi
     private HashMap<String, Boolean> keyPressed;
     private Timer timer;
     private long lastTime;
-    public Graphics2D buffer;
     private AffineTransform transformDefault;
     private Image offscreen;
+    public Graphics2D buffer;
     public double deltaTime;
     public ArrayList<GameObject> gameObjects; 
     public Vector2D mousePosition;
@@ -73,7 +73,9 @@ class Scene extends JPanel implements KeyListener, MouseMotionListener, ActionLi
         int x = (int)Math.rint(position.x - sprite.getWidth()/2);
         int y = (int)Math.rint(this.windowHeight - position.y - sprite.getHeight()/2);
         // Rotate the given rotation offset by 90 (90 means no rotation)
-        this.buffer.rotate(Math.toRadians(-1*(rotation-90)), x, y);
+        int translateX = (int)Math.rint(position.x);
+        int translateY = (int)Math.rint(this.windowHeight - position.y);
+        this.buffer.rotate(Math.toRadians(-1*(rotation-90)), translateX, translateY);
         this.buffer.drawImage(sprite, x, y, sprite.getWidth(), sprite.getHeight(), null);
         this.buffer.setTransform(this.transformDefault);
     }

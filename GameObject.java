@@ -2,9 +2,10 @@ import java.util.ArrayList;
 import java.lang.Math;
 
 class GameObject {
+    
     public Vector2D position;
     public int rotation;
-    private Scene scene;
+    public Scene scene;
     private ArrayList<Component> components;
 
     public GameObject(double x, double y, int rotation) {
@@ -50,10 +51,9 @@ class GameObject {
     // Return first component of matching type
     public <T extends Component> T getComponent(Class<T> type) {
         for (Component component: components) {
-            boolean isType = component.getClass() == type;
-            boolean isSubtype = component.getClass().isAssignableFrom(type);
+            boolean isType = type.isAssignableFrom(component.getClass());
             // return component if it is of type or a subtype of 'type'
-            if (isType || isSubtype) {
+            if (isType) {
                 return type.cast(component);
             }
         }

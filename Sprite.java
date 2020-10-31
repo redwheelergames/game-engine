@@ -7,9 +7,9 @@ import java.lang.Math;
 
 class Sprite implements Component {
     
-    BufferedImage sprite;
-    GameObject parent;
-    Scene scene;
+    public BufferedImage sprite;
+    public GameObject parent;
+    public Scene scene;
 
     public Sprite(Scene scene, GameObject parent, String imagePath) {
         this.scene = scene;

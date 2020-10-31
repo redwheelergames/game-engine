@@ -1,16 +1,15 @@
 import java.lang.Math;
 
 class PlayerController implements Component {
-    private GameObject parent;
-    private Scene scene;
-    private float dx;
-    private float dy;
 
-    public PlayerController(Scene scene, GameObject parent, float dx, float dy) {
+    public GameObject parent;
+    public Scene scene;
+    public float speed;
+
+    public PlayerController(Scene scene, GameObject parent, float speed) {
         this.scene = scene;
         this.parent = parent;
-        this.dx = dx;
-        this.dy = dy;
+        this.speed = speed;
     }
 
     public void update() { 
@@ -20,11 +19,15 @@ class PlayerController implements Component {
         Vector2D playerPosition = this.parent.position;
         Vector2D mousePosition = this.scene.mousePosition;
         Vector2D newForward = mousePosition.subtract(playerPosition);
-        this.parent.setForwardVector(newForward);
+
+        // Don't update rotation if mouse is too close, prevent jumping
+        if (newForward.magnitude() > 15) {
+            this.parent.setForwardVector(newForward);
+        }
 
         if (this.scene.getKeyPressed("w")) {
             Vector2D forward = this.parent.getForwardVector();
-            Vector2D delta = forward.scale(this.dx * deltaTime);
+            Vector2D delta = forward.scale(this.speed * deltaTime);
             this.parent.position = this.parent.position.add(delta);
         }
         
