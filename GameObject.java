@@ -4,13 +4,15 @@ import java.lang.Math;
 class GameObject {
     
     public Vector2D position;
+    public Vector2D scale;
     public int rotation;
     public Scene scene;
     private ArrayList<Component> components;
 
-    public GameObject(double x, double y, int rotation) {
-        this.position = new Vector2D(x, y);
+    public GameObject(double posX, double posY, double scaleX, double scaleY, int rotation) {
+        this.position = new Vector2D(posX, posY);
         this.rotation = rotation;
+        this.scale = new Vector2D(scaleX, scaleY);
         this.components = new ArrayList<Component>();
     }
     

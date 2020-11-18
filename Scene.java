@@ -69,14 +69,16 @@ class Scene extends JPanel implements KeyListener, MouseMotionListener, ActionLi
         this.buffer.fillRect(0, 0, this.windowWidth, this.windowHeight);
     }
 
-    public void drawSprite (BufferedImage sprite, Vector2D position, int rotation) {
-        int x = (int)Math.rint(position.x - sprite.getWidth()/2);
-        int y = (int)Math.rint(this.windowHeight - position.y - sprite.getHeight()/2);
+    public void drawSprite (BufferedImage sprite, Vector2D position, Vector2D scale, int rotation) {
+        int width = (int)(sprite.getWidth() * scale.x);
+        int height = (int)(sprite.getHeight() * scale.y);
+        int x = (int)Math.rint(position.x - width/2);
+        int y = (int)Math.rint(this.windowHeight - position.y - height/2);
         // Rotate the given rotation offset by 90 (90 means no rotation)
         int translateX = (int)Math.rint(position.x);
         int translateY = (int)Math.rint(this.windowHeight - position.y);
         this.buffer.rotate(Math.toRadians(-1*(rotation-90)), translateX, translateY);
-        this.buffer.drawImage(sprite, x, y, sprite.getWidth(), sprite.getHeight(), null);
+        this.buffer.drawImage(sprite, x, y, width, height, null);
         this.buffer.setTransform(this.transformDefault);
     }
 

@@ -3,14 +3,14 @@ import java.util.Random;
 class DemoGame {
     public static void main(String[] args) {
         
-        int screenHeight = 360;
-        int screenWidth = 640;
+        int screenHeight = 720;
+        int screenWidth = 1280;
 
         Scene scene = new Scene(screenWidth, screenHeight);
         Game game = new Game(screenWidth, screenHeight, scene);
 
         // Background game object
-        GameObject background = new GameObject(screenWidth/2, screenHeight/2, 90);
+        GameObject background = new GameObject(screenWidth/2, screenHeight/2, 2, 2, 90);
         Sprite backgroundSprite = new Sprite(scene, background, "background.png");
         background.addComponent(backgroundSprite);
         scene.addGameObject(background);
@@ -25,7 +25,7 @@ class DemoGame {
         }
 
         // Character game object
-        GameObject character = new GameObject(screenWidth/2, screenHeight/2, 90);
+        GameObject character = new GameObject(screenWidth/2, screenHeight/2, 2, 2, 90);
         Sprite characterSprite = new Sprite(scene, character, "player_sprite.png");
         PlayerController playerController = new PlayerController(scene, character, 100);
         PlayerCollider playerCollider = new PlayerCollider(scene, character, 8);
