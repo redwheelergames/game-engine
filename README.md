@@ -12,28 +12,20 @@ Built in features:
 - Game window management
 - Built in Components
     - Sprites
+    - Animations
     - Colliders
-
-### Demo Game
-`DemoGame.java` is a small demonstration of the capabilities of the game engine.
-
-The following files are part of the demo and not built in to the engine itself:
-- `PlayerController.java` implements Component
-- `PlayerCollider.java` extends Collider
-- `AsteroidController.java` implements Component
-- `Asteroid.java` extends GameObject
     
-### Running Locally
+### Building Locally
 This project was built with Java version 15.
 
-To compile the demo game run the following command 
+**To compile the game-engine package, run the following command in the game-engine root directory**
 
 ```
-    javac *.java
+    javac -d <destination> *.java  
 ```
+This command will generate a folder of classes named 'game_engine' in the directory specified by destination. 
 
-To run run the following command 
+### Including game-engine in your project
 
-```
-    java DemoGame
-```
+In order to include game-engine in your project, either move the `game_engine` folder to your project's root directory, or to the directory specified by environment variable `CLASSPATH`.
+

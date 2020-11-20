@@ -1,3 +1,5 @@
+package game_engine;
+
 import java.io.*;
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +13,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-class Scene extends JPanel implements KeyListener, MouseMotionListener, ActionListener{
+public class Scene extends JPanel implements KeyListener, MouseMotionListener, ActionListener{
     
     private HashMap<String, Boolean> keyPressed;
     private Timer timer;

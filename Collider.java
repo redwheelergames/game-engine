@@ -1,7 +1,9 @@
+package game_engine;
+
 import java.util.ArrayList;
 
 // Generic circle collider that has no collission behavior
-class Collider implements Component {
+public class Collider implements Component {
     
     public GameObject parent;
     public Scene scene;

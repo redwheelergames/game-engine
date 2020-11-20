@@ -1,6 +1,9 @@
+package game_engine;
+
 import java.lang.Math;
 
-class Vector2D {
+public class Vector2D {
+    
     public double x;
     public double y;
 

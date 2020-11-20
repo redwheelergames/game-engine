@@ -1,8 +1,10 @@
+package game_engine;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 
-class Sprite implements Component {
+public class Sprite implements Component {
     
     public BufferedImage sprite;
     public GameObject parent;

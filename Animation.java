@@ -1,18 +1,21 @@
+package game_engine;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 import java.util.List;
 import java.util.ArrayList;
 
-class Animation implements Component {
+public class Animation implements Component {
 
     public GameObject parent;
     public Scene scene;
 
     public ArrayList<BufferedImage> frames;
-    public int frameCount;
-    public int frameIndex;
+    public int frameCount;  // Number of frames
+    public int frameIndex;  // Index of current frame
     public int frameLength; // Amount of frames each sprite should be played for
+
     public boolean repeat;
     public boolean finished;
     private int lastChange; // How many frames have passed since last sprite change

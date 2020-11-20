@@ -1,8 +1,10 @@
+package game_engine;
+
 import java.io.*;
 import javax.swing.*;
 import java.util.Random;
 
-class Game extends JFrame{
+public class Game extends JFrame{
 
     public static final int TITLE_SIZE = 39; // Constant that accounts for the window title bar
     public Scene scene;

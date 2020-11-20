@@ -1,7 +1,9 @@
+package game_engine;
+
 import java.util.ArrayList;
 import java.lang.Math;
 
-class GameObject {
+public class GameObject {
     
     public Vector2D position;
     public Vector2D scale;

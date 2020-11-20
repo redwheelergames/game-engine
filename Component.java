@@ -1,4 +1,6 @@
+package game_engine;
+
 // Interface that all components must implement
-interface Component {
+public interface Component {
     public void update();
 }
