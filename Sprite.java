@@ -1,9 +1,6 @@
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.geom.*;
-import java.lang.Math;
 
 class Sprite implements Component {
     
