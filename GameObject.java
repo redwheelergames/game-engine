@@ -8,10 +8,11 @@ public class GameObject {
     public Vector2D position;
     public Vector2D scale;
     public int rotation;
-    public Scene scene;
+    public Game game;
     private ArrayList<Component> components;
 
-    public GameObject(double posX, double posY, double scaleX, double scaleY, int rotation) {
+    public GameObject(Game game, double posX, double posY, double scaleX, double scaleY, int rotation) {
+        this.game = game;
         this.position = new Vector2D(posX, posY);
         this.rotation = rotation;
         this.scale = new Vector2D(scaleX, scaleY);

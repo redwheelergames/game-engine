@@ -8,10 +8,8 @@ public class Sprite implements Component {
     
     public BufferedImage sprite;
     public GameObject parent;
-    public Scene scene;
 
-    public Sprite(Scene scene, GameObject parent, String imagePath) {
-        this.scene = scene;
+    public Sprite(GameObject parent, String imagePath) {
         this.parent = parent;
         //attempt to load the image from a file
         try {
@@ -22,6 +20,6 @@ public class Sprite implements Component {
     }
 
     public void update() {
-        this.scene.drawSprite(this.sprite, this.parent.position, this.parent.scale, this.parent.rotation);
+        this.parent.game.drawSprite(this.sprite, this.parent.position, this.parent.scale, this.parent.rotation);
     }
 }
