@@ -6,13 +6,11 @@ import java.util.ArrayList;
 public class Collider implements Component {
     
     public GameObject parent;
-    public Scene scene;
     public int radius;
 
-    public Collider (Scene scene, GameObject parent, int radius) {
+    public Collider (GameObject parent, int radius) {
         this.parent = parent;
         this.radius = radius;
-        this.scene = scene;
     }
 
     // Check if this collider has collided with passed in collider
@@ -30,7 +28,7 @@ public class Collider implements Component {
     }
 
     public void update() {
-        ArrayList<GameObject> gameObjects = scene.gameObjects;
+        ArrayList<GameObject> gameObjects = this.parent.game.currentScene.gameObjects;
         for (GameObject gameObject: gameObjects) {
             Collider collider = gameObject.getComponent(Collider.class);
             if (collider != null && collider != this && hasCollided(collider)) {

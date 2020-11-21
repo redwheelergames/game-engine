@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class Animation implements Component {
 
     public GameObject parent;
-    public Scene scene;
 
     public ArrayList<BufferedImage> frames;
     public int frameCount;  // Number of frames
@@ -20,8 +19,7 @@ public class Animation implements Component {
     public boolean finished;
     private int lastChange; // How many frames have passed since last sprite change
 
-    public Animation (Scene scene, GameObject parent, List<String> imagePaths, int frameLength, boolean repeat) {
-        this.scene = scene;
+    public Animation (GameObject parent, List<String> imagePaths, int frameLength, boolean repeat) {
         this.parent = parent;
         this.frameLength = frameLength;
         this.repeat = repeat;
@@ -57,7 +55,7 @@ public class Animation implements Component {
                     this.frameIndex++;
                 }
             }
-            this.scene.drawSprite(this.frames.get(this.frameIndex), this.parent.position, this.parent.scale, this.parent.rotation);
+            this.parent.game.drawSprite(this.frames.get(this.frameIndex), this.parent.position, this.parent.scale, this.parent.rotation);
         }
     }
 }
