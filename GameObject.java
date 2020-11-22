@@ -11,7 +11,7 @@ public class GameObject {
     public Game game;
     private ArrayList<Component> components;
     
-    public GameObject (Game game) {
+    public GameObject(Game game) {
         this.game = game;
         this.position = new Vector2D(0, 0);
         this.rotation = 0;

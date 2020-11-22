@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.Font;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -19,7 +20,7 @@ public class Game extends JFrame implements KeyListener, MouseMotionListener, Ac
     public int windowWidth;
     public int windowHeight;
 
-    private Canvas canvas;
+    public Canvas canvas;
     public KeyMap wasPressed;
     public KeyMap wasReleased;
     public Vector2D mousePosition;
@@ -55,19 +56,6 @@ public class Game extends JFrame implements KeyListener, MouseMotionListener, Ac
 
     public void changeScene(String transitionName) {
         this.currentScene = this.currentScene.transition(transitionName);
-    }
-
-    public void drawSprite (BufferedImage sprite, Vector2D position, Vector2D scale, int rotation) {
-        int width = (int)(sprite.getWidth() * scale.x);
-        int height = (int)(sprite.getHeight() * scale.y);
-        int x = (int)Math.rint(position.x - width/2);
-        int y = (int)Math.rint(this.windowHeight - position.y - height/2);
-        // Rotate the given rotation offset by 90 (90 means no rotation)
-        int translateX = (int)Math.rint(position.x);
-        int translateY = (int)Math.rint(this.windowHeight - position.y);
-        this.canvas.buffer.rotate(Math.toRadians(-1*(rotation-90)), translateX, translateY);
-        this.canvas.buffer.drawImage(sprite, x, y, width, height, null);
-        this.canvas.buffer.setTransform(this.canvas.transformDefault);
     }
 
     public void actionPerformed(ActionEvent e){
@@ -129,9 +117,27 @@ public class Game extends JFrame implements KeyListener, MouseMotionListener, Ac
             this.buffer.setColor(getBackground());
             this.buffer.fillRect(0, 0, Game.this.windowWidth, Game.this.windowHeight);
         }
+
+        public void drawText(String text, Font font, Vector2D position) {
+            this.buffer.setFont(font);
+            this.buffer.drawString(text, (int)Math.rint(position.x), (int)Math.rint(position.y));
+        }
+
+        public void drawSprite(BufferedImage sprite, Vector2D position, Vector2D scale, int rotation) {
+            int width = (int)(sprite.getWidth() * scale.x);
+            int height = (int)(sprite.getHeight() * scale.y);
+            int x = (int)Math.rint(position.x - width/2);
+            int y = (int)Math.rint(Game.this.windowHeight - position.y - height/2);
+            // Rotate the given rotation offset by 90 (90 means no rotation)
+            int translateX = (int)Math.rint(position.x);
+            int translateY = (int)Math.rint(Game.this.windowHeight - position.y);
+            this.buffer.rotate(Math.toRadians(-1*(rotation-90)), translateX, translateY);
+            this.buffer.drawImage(sprite, x, y, width, height, null);
+            this.buffer.setTransform(this.transformDefault);
+        }
     }
 
-    static class KeyMap {
+    static public class KeyMap {
 
         private HashMap<Integer, Boolean> keyMap;
         static final HashMap<String, Integer> aliases;
