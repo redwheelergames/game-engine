@@ -14,7 +14,8 @@ public class Sprite implements Component {
         //attempt to load the image from a file
         try {
             this.sprite = ImageIO.read(new File(imagePath));
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             System.out.println("Unable to read in image file.");
         }
     }

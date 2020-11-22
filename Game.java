@@ -20,7 +20,8 @@ public class Game extends JFrame implements KeyListener, MouseMotionListener, Ac
     public int windowHeight;
 
     private Canvas canvas;
-    private HashMap<String, Boolean> keyPressed;
+    public KeyMap wasPressed;
+    public KeyMap wasReleased;
     public Vector2D mousePosition;
 
     private Timer timer;
@@ -30,23 +31,22 @@ public class Game extends JFrame implements KeyListener, MouseMotionListener, Ac
     public Scene currentScene;
 
     public Game(int windowWidth, int windowHeight) {
-        this.setSize(windowWidth, windowHeight+TITLE_SIZE);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.mousePosition = new Vector2D (0, 0);
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-        this.keyPressed = new HashMap<String, Boolean>();
-        this.keyPressed.put("w", false);
-        this.keyPressed.put("a", false);
-        this.keyPressed.put("s", false);
-        this.keyPressed.put("d", false);
-        this.timer = new Timer(17, this);
+        this.setSize(this.windowWidth, this.windowHeight+TITLE_SIZE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setFocusable(true);
         this.requestFocusInWindow();
-        addKeyListener(this);
-        addMouseMotionListener(this);
         this.canvas = new Canvas();
         this.add(this.canvas);
+        
+        this.mousePosition = new Vector2D (0, 0);
+        this.wasPressed = new KeyMap();
+        this.wasReleased = new KeyMap();
+        addKeyListener(this);
+        addMouseMotionListener(this);
+
+        this.timer = new Timer(17, this); 
     }
 
     public void setScene(Scene scene) {
@@ -77,6 +77,7 @@ public class Game extends JFrame implements KeyListener, MouseMotionListener, Ac
         for (GameObject gameObject: this.currentScene.gameObjects) {
             gameObject.update();
         }
+        this.wasReleased.reset();
         this.canvas.repaint();
     } 
 
@@ -86,10 +87,6 @@ public class Game extends JFrame implements KeyListener, MouseMotionListener, Ac
         this.lastTime = date.getTime();
         this.deltaTime = 0;
         this.timer.start();
-    }
-
-    public boolean getKeyPressed(String key) {
-        return keyPressed.get(key);
     }
 
     public void mouseDragged(MouseEvent e) {
@@ -106,35 +103,12 @@ public class Game extends JFrame implements KeyListener, MouseMotionListener, Ac
     }
 
     public void keyPressed(KeyEvent e) {
-        int key = e.getKeyCode();
-        if(key == KeyEvent.VK_W) {
-            this.keyPressed.put("w", true);
-        }
-        else if(key == KeyEvent.VK_A) {
-            this.keyPressed.put("a", true);
-        }
-        else if(key == KeyEvent.VK_S) {
-            this.keyPressed.put("s", true);
-        }
-        else if(key == KeyEvent.VK_D) {
-            this.keyPressed.put("d", true);
-        }
+        this.wasPressed.setKey(e.getKeyCode(), true);
     }
 
     public void keyReleased(KeyEvent e) {
-        int key = e.getKeyCode();
-        if(key == KeyEvent.VK_W) {
-            this.keyPressed.put("w", false);
-        }
-        else if(key == KeyEvent.VK_A) {
-            this.keyPressed.put("a", false);
-        }
-        else if(key == KeyEvent.VK_S) {
-            this.keyPressed.put("s", false);
-        }
-        else if(key == KeyEvent.VK_D) {
-            this.keyPressed.put("d", false);
-        }
+        this.wasPressed.setKey(e.getKeyCode(), false);
+        this.wasReleased.setKey(e.getKeyCode(), true);
     }
 
     // Double buffered drawing area
@@ -143,17 +117,66 @@ public class Game extends JFrame implements KeyListener, MouseMotionListener, Ac
         private Image offscreen;
         private Graphics2D buffer;
 
-        public Canvas () {
+        public Canvas() {
             this.offscreen = new BufferedImage(Game.this.windowWidth, Game.this.windowHeight, BufferedImage.TYPE_INT_RGB);
             this.buffer = (Graphics2D)this.offscreen.getGraphics();
             this.transformDefault = this.buffer.getTransform();
         }
 
-        public void paintComponent (Graphics g) {
+        public void paintComponent(Graphics g) {
             g.drawImage(this.offscreen, 0, 0, this);
             // Clear bufffer
             this.buffer.setColor(getBackground());
             this.buffer.fillRect(0, 0, Game.this.windowWidth, Game.this.windowHeight);
+        }
+    }
+
+    static class KeyMap {
+
+        private HashMap<Integer, Boolean> keyMap;
+        static final HashMap<String, Integer> aliases;
+        
+        static {
+            aliases = new HashMap<String, Integer> ();
+            aliases.put("a", KeyEvent.VK_W);
+            aliases.put("w", KeyEvent.VK_A);
+            aliases.put("s", KeyEvent.VK_S);
+            aliases.put("d", KeyEvent.VK_D);
+            aliases.put("space", KeyEvent.VK_SPACE);
+        }
+
+        public KeyMap() {
+            this.keyMap = new HashMap<Integer, Boolean> ();
+            this.keyMap.put(KeyEvent.VK_W, false);
+            this.keyMap.put(KeyEvent.VK_A, false);
+            this.keyMap.put(KeyEvent.VK_S, false);
+            this.keyMap.put(KeyEvent.VK_D, false);
+            this.keyMap.put(KeyEvent.VK_SPACE, false);
+        }
+
+        // Set all values in keyMap to false
+        public void reset() {
+            for (HashMap.Entry<Integer, Boolean> entry: this.keyMap.entrySet()) {
+                this.keyMap.put(entry.getKey(), false);
+            }
+        }
+
+        public void setKey(int keyCode, boolean value) {
+            this.keyMap.put(keyCode, value);
+        }
+
+        public void setKey(String keyAlias, boolean value) {
+            int keyCode = aliases.get(keyAlias); // This isn't safe
+            setKey(keyCode, value);
+        }
+
+        public boolean getKey(int keyCode) {
+            return this.keyMap.get(keyCode);
+        }
+
+        public boolean getKey(String keyAlias) {
+            int keyCode = aliases.get(keyAlias);
+            return getKey(keyCode);
         }
     }
 }
