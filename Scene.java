@@ -13,6 +13,7 @@ public class Scene {
     public Scene() {
         this.gameObjects = new ArrayList<GameObject> ();
         this.transitions = new HashMap<String, Scene> ();
+        this.groups = new HashMap<String, ArrayList<GameObject>> ();
     }
 
     // Add a gameObject to the scene without a group
