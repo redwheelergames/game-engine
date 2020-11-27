@@ -34,6 +34,31 @@ public class Vector2D {
         return this.x*vector.x + this.y*vector.y;
     }
 
+    // Return z component of 3D cross product between this vector and passed in vector
+    public double crossProduct(Vector2D vector) {
+        return this.x*vector.y - this.y*vector.x;
+    }
+
+    // Get unsigned angle between this vector and passed in vector
+    public double angleUnsigned(Vector2D vector) {
+        double dotProduct = this.dotProduct(vector);
+        double radians = Math.acos(dotProduct / (this.magnitude() * vector.magnitude()));
+        return Math.toDegrees(radians);
+    }
+
+    // Get signed angle from this vector to passed in vector
+    public double angleSigned(Vector2D vector) {
+        double unsigned = this.angleUnsigned(vector);
+        double crossProduct = this.crossProduct(vector);
+        if (crossProduct < 0) {
+            return unsigned * -1;
+        }
+        else {
+            return unsigned;
+        }
+
+    }
+
     public double magnitude() {
         return Math.sqrt(this.x*this.x + this.y*this.y);
     }
