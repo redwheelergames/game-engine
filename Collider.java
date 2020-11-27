@@ -30,9 +30,11 @@ public class Collider implements Component {
     public void update() {
         ArrayList<GameObject> gameObjects = this.parent.game.currentScene.gameObjects;
         for (GameObject gameObject: gameObjects) {
-            Collider collider = gameObject.getComponents(Collider.class).get(0);
-            if (collider != null && collider != this && hasCollided(collider)) {
-                collider.onCollide(this); // notify collider that this collider has collided with it
+            ArrayList<Collider> colliders = gameObject.getComponents(Collider.class);
+            for (Collider collider: colliders) {
+                if (collider != this && hasCollided(collider)) {
+                    collider.onCollide(this); // notify collider that this collider has collided with it
+                }
             }
         }
     }
