@@ -47,17 +47,9 @@ public class GameObject {
 
     // Set rotation based on forward facing vector
     public void setForwardVector(Vector2D forward) {
-        // Calculate angle between new forward vector and <1, 0> (0 degrees)
-        double dotProduct = forward.x;
-        double magnitude = forward.magnitude();
-        double radians = Math.acos(dotProduct/magnitude);
-        int degrees = (int)Math.toDegrees(radians);
-        if (forward.y > 0) {
-            this.rotation = degrees;
-        }
-        else {
-            this.rotation = 360 - degrees;
-        }
+        // Calculate signed angle between new forward vector and <1, 0> (0 degrees)
+        Vector2D positiveX = new Vector2D(1, 0);
+        this.rotation = (int)positiveX.angleSigned(forward);
     }
 
     // Add new component to instance
