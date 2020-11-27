@@ -12,7 +12,6 @@ public class GameObject {
     public Game game;
     public boolean active;
     private ArrayList<Component> components;
-
     
     public GameObject(Game game, boolean active) {
         this.game = game;
@@ -66,16 +65,17 @@ public class GameObject {
         this.components.add(component);
     }
 
-    // Return first component of matching type
-    public <T extends Component> T getComponent(Class<T> type) {
-        for (Component component: components) {
+    // Return ArrayList of components of matching type
+    public <T extends Component> ArrayList<T> getComponents(Class<T> type) {
+        ArrayList<T> matchingComponents = new ArrayList<T> ();
+        for (Component component: this.components) {
             boolean isType = type.isAssignableFrom(component.getClass());
             // return component if it is of type or a subtype of 'type'
             if (isType) {
-                return type.cast(component);
+                matchingComponents.add(type.cast(component));
             }
         }
-        return null; // No component of type 'type' was found
+        return matchingComponents;
     }
 
     public void update() {
