@@ -63,7 +63,9 @@ public class Game extends JFrame implements KeyListener, MouseMotionListener, Ac
         this.deltaTime = (date.getTime() - this.lastTime) / 1000.0;
         this.lastTime = date.getTime();
         for (GameObject gameObject: this.currentScene.gameObjects) {
-            gameObject.update();
+            if (gameObject.active) {
+               gameObject.update(); 
+            }
         }
         this.wasReleased.reset();
         this.canvas.repaint();
@@ -144,8 +146,8 @@ public class Game extends JFrame implements KeyListener, MouseMotionListener, Ac
         
         static {
             aliases = new HashMap<String, Integer> ();
-            aliases.put("a", KeyEvent.VK_W);
-            aliases.put("w", KeyEvent.VK_A);
+            aliases.put("w", KeyEvent.VK_W);
+            aliases.put("a", KeyEvent.VK_A);
             aliases.put("s", KeyEvent.VK_S);
             aliases.put("d", KeyEvent.VK_D);
             aliases.put("space", KeyEvent.VK_SPACE);
