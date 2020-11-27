@@ -1,6 +1,7 @@
 package game_engine;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.lang.Math;
 
 public class GameObject {
@@ -9,18 +10,22 @@ public class GameObject {
     public Vector2D scale;
     public int rotation;
     public Game game;
+    public boolean active;
     private ArrayList<Component> components;
+
     
-    public GameObject(Game game) {
+    public GameObject(Game game, boolean active) {
         this.game = game;
+        this.active = active;
         this.position = new Vector2D(0, 0);
         this.rotation = 0;
         this.scale = new Vector2D(0, 0);
         this.components = new ArrayList<Component>();
     }
     
-    public GameObject(Game game, double posX, double posY, double scaleX, double scaleY, int rotation) {
+    public GameObject(Game game, boolean active, double posX, double posY, double scaleX, double scaleY, int rotation) {
         this.game = game;
+        this.active = active;
         this.position = new Vector2D(posX, posY);
         this.rotation = rotation;
         this.scale = new Vector2D(scaleX, scaleY);
