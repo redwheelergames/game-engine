@@ -10,11 +10,13 @@ public class GameObject {
     public Vector2D scale;
     public int rotation;
     public Game game;
+    public Scene scene;
     public boolean active;
     private ArrayList<Component> components;
     
-    public GameObject(Game game, boolean active) {
+    public GameObject(Game game, Scene scene, boolean active) {
         this.game = game;
+        this.scene = scene;
         this.active = active;
         this.position = new Vector2D(0, 0);
         this.rotation = 0;
@@ -22,8 +24,9 @@ public class GameObject {
         this.components = new ArrayList<Component>();
     }
     
-    public GameObject(Game game, boolean active, double posX, double posY, double scaleX, double scaleY, int rotation) {
+    public GameObject(Game game, Scene scene, boolean active, double posX, double posY, double scaleX, double scaleY, int rotation) {
         this.game = game;
+        this.scene = scene;
         this.active = active;
         this.position = new Vector2D(posX, posY);
         this.rotation = rotation;
