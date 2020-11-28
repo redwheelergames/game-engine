@@ -39,6 +39,10 @@ public class Vector2D {
         return this.x*vector.y - this.y*vector.x;
     }
 
+    public Vector2D normalized() {
+        return this.scale(1/this.magnitude());
+    }
+
     // Get unsigned angle between this vector and passed in vector
     public double angleUnsigned(Vector2D vector) {
         double dotProduct = this.dotProduct(vector);
