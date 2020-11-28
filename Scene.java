@@ -24,24 +24,30 @@ public class Scene {
         }
     }
 
-    // Add a gameObject to the scene with groups
+    // Add a gameObject to the scene with one group
+    public void addGameObject (GameObject gameObject, String groupName) {
+        this.addGameObject(gameObject);
+        ArrayList<GameObject> group;
+        // Get list of objects in group if groupName is found
+        if (this.groups.containsKey(groupName)) {
+            group = this.groups.get(groupName);
+        }
+        // Add new list to groupss if groupName is not found
+        else {
+            group = new ArrayList<GameObject> ();
+            this.groups.put(groupName, group);
+        }
+        // Check if group already contains reference to gameObject
+        if (!group.contains(gameObject)) {
+            group.add(gameObject);
+        }
+    }
+
+    // Add a gameObject to the scene with list groups
     public void addGameObject (GameObject gameObject, List<String> groupNames) {
         this.addGameObject(gameObject);
         for (String groupName: groupNames) {
-            ArrayList<GameObject> group;
-            // Get list of objects in group if groupName is found
-            if (this.groups.containsKey(groupName)) {
-                group = this.groups.get(groupName);
-            }
-            // Add new list to groupss if groupName is not found
-            else {
-                group = new ArrayList<GameObject> ();
-                this.groups.put(groupName, group);
-            }
-            // Check if group already contains reference to gameObject
-            if (!group.contains(gameObject)) {
-                group.add(gameObject);
-            }
+            this.addGameObject(gameObject, groupName);
         }
     }
 
