@@ -48,7 +48,7 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
         addMouseMotionListener(this);
         addMouseListener(this);
 
-        this.timer = new Timer(17, this); 
+        this.timer = new Timer(1, this); 
     }
 
     public void setScene(Scene scene) {
@@ -172,6 +172,8 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
             aliases.put("a", KeyEvent.VK_A);
             aliases.put("s", KeyEvent.VK_S);
             aliases.put("d", KeyEvent.VK_D);
+            aliases.put("q", KeyEvent.VK_Q);
+            aliases.put("e", KeyEvent.VK_E);
             aliases.put("space", KeyEvent.VK_SPACE);
             aliases.put("mouse1", MouseEvent.BUTTON1);
             aliases.put("mouse2", MouseEvent.BUTTON2);
@@ -184,6 +186,8 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
             this.keyMap.put(KeyEvent.VK_A, false);
             this.keyMap.put(KeyEvent.VK_S, false);
             this.keyMap.put(KeyEvent.VK_D, false);
+            this.keyMap.put(KeyEvent.VK_Q, false);
+            this.keyMap.put(KeyEvent.VK_E, false);
             this.keyMap.put(KeyEvent.VK_SPACE, false);
             this.keyMap.put(MouseEvent.BUTTON1, false);
             this.keyMap.put(MouseEvent.BUTTON2, false);
