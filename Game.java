@@ -46,6 +46,7 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
         this.wasReleased = new KeyMap();
         addKeyListener(this);
         addMouseMotionListener(this);
+        addMouseListener(this);
 
         this.timer = new Timer(17, this); 
     }
