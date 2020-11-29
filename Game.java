@@ -13,7 +13,7 @@ import java.awt.Font;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Game extends JFrame implements KeyListener, MouseMotionListener, ActionListener{
+public class Game extends JFrame implements KeyListener, MouseListener, MouseMotionListener, ActionListener{
 
     public static final int TITLE_SIZE = 39; // Constant that accounts for the window title bar
 
@@ -88,6 +88,27 @@ public class Game extends JFrame implements KeyListener, MouseMotionListener, Ac
         this.mousePosition.y = this.windowHeight - e.getY();
     }
 
+    public void mouseClicked(MouseEvent e) {
+        // do nothing
+    }
+
+    public void mouseEntered (MouseEvent e) {
+        // do nothing
+    }
+
+    public void mouseExited (MouseEvent e) {
+        // do nothing
+    }
+
+    public void mousePressed (MouseEvent e) {
+        this.wasPressed.setKey(e.getButton(), true);
+    }
+
+    public void mouseReleased (MouseEvent e) {
+        this.wasPressed.setKey(e.getButton(), false);
+        this.wasReleased.setKey(e.getButton(), true);
+    }
+
     public void keyTyped(KeyEvent e) {
         // do nothing
     }
@@ -151,6 +172,9 @@ public class Game extends JFrame implements KeyListener, MouseMotionListener, Ac
             aliases.put("s", KeyEvent.VK_S);
             aliases.put("d", KeyEvent.VK_D);
             aliases.put("space", KeyEvent.VK_SPACE);
+            aliases.put("mouse1", MouseEvent.BUTTON1);
+            aliases.put("mouse2", MouseEvent.BUTTON2);
+            aliases.put("mouse3", MouseEvent.BUTTON3);
         }
 
         public KeyMap() {
@@ -160,6 +184,9 @@ public class Game extends JFrame implements KeyListener, MouseMotionListener, Ac
             this.keyMap.put(KeyEvent.VK_S, false);
             this.keyMap.put(KeyEvent.VK_D, false);
             this.keyMap.put(KeyEvent.VK_SPACE, false);
+            this.keyMap.put(MouseEvent.BUTTON1, false);
+            this.keyMap.put(MouseEvent.BUTTON2, false);
+            this.keyMap.put(MouseEvent.BUTTON3, false);
         }
 
         // Set all values in keyMap to false
