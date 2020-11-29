@@ -54,7 +54,14 @@ public class Scene {
     // Return ArrayList of GameObjects within group specified by groupName
     public ArrayList<GameObject> getGroup (String groupName) {
         if (groups.containsKey(groupName)) {
-            return groups.get(groupName);
+            ArrayList<GameObject> gameObjects = groups.get(groupName);
+            ArrayList<GameObject> active = new ArrayList<GameObject> ();
+            for (GameObject gameObject : gameObjects) {
+                if (gameObject.active) {
+                    active.add(gameObject);
+                }
+            }
+            return active;
         }
         else {
             return null;
