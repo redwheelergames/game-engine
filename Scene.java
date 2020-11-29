@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 
-public class Scene {
+public abstract class Scene {
     
     private HashMap<String, ArrayList<GameObject>> groups; 
     public ArrayList<GameObject> gameObjects;
@@ -13,6 +13,15 @@ public class Scene {
     public Scene() {
         this.gameObjects = new ArrayList<GameObject> ();
         this.transitions = new HashMap<String, Scene> ();
+        this.groups = new HashMap<String, ArrayList<GameObject>> ();
+    }
+
+    // Override to define logic for loading in the new scene
+    public abstract void load(Game game);
+
+    // Remove all game objects from groups and gameObjects
+    public void reset() {
+        this.gameObjects = new ArrayList<GameObject> ();
         this.groups = new HashMap<String, ArrayList<GameObject>> ();
     }
 

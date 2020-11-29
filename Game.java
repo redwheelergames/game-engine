@@ -53,10 +53,12 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
 
     public void setScene(Scene scene) {
         this.currentScene = scene;
+        this.currentScene.load(this);
     }
 
     public void changeScene(String transitionName) {
         this.currentScene = this.currentScene.transition(transitionName);
+        this.currentScene.load(this);
     }
 
     public void actionPerformed(ActionEvent e){
