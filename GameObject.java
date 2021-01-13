@@ -6,9 +6,11 @@ import java.lang.Math;
 
 public class GameObject {
     
-    public Vector2D position;
+    private Vector2D bufferedPosition;
+    private Vector2D position;
+    private int bufferedRotation;
+    private int rotation;
     public Vector2D scale;
-    public int rotation;
     public Game game;
     public Scene scene;
     public boolean active;
@@ -19,7 +21,9 @@ public class GameObject {
         this.scene = scene;
         this.active = active;
         this.position = new Vector2D(0, 0);
+        this.bufferedPosition = new Vector2D(0, 0);
         this.rotation = 0;
+        this.bufferedRotation = 0;
         this.scale = new Vector2D(0, 0);
         this.components = new ArrayList<Component>();
     }
@@ -29,7 +33,9 @@ public class GameObject {
         this.scene = scene;
         this.active = active;
         this.position = new Vector2D(posX, posY);
+        this.bufferedPosition = this.position;
         this.rotation = rotation;
+        this.bufferedRotation = this.rotation;
         this.scale = new Vector2D(scaleX, scaleY);
         this.components = new ArrayList<Component>();
     }
@@ -73,9 +79,41 @@ public class GameObject {
         return matchingComponents;
     }
 
+    // Return game object's current position
+    public Vector2D getPosition() {
+        return this.position;
+    }
+
+    // Return current value for game object's buffered position
+    public Vector2D getNextPosition() {
+        return this.bufferedPosition;
+    }
+
+    // Set the game object's buffered position - to be set next frame
+    public void setPosition(Vector2D position) {
+        this.bufferedPosition = position;
+    }
+
+    // Return game object's current rotation
+    public int getRotation() {
+        return this.rotation;
+    }
+
+    // Return game object's buffered rotation
+    public int getNextRotation() {
+        return this.bufferedRotation;
+    }
+
+    // Set the game object's buffered rotation - to be set next frame
+    public void setRotation(int rotation) {
+        this.bufferedRotation = rotation;
+    }
+
     public void update() {
         for (Component component : components) {
             component.update();
         }
+        this.position = this.bufferedPosition;
+        this.rotation = this.bufferedRotation;
     }
 }
