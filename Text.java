@@ -29,6 +29,6 @@ public class Text implements Component {
     }
 
     public void update() {
-        this.parent.game.canvas.drawText(this.textValue, this.font, this.parent.getPosition());
+        this.parent.game.canvas.drawText(this.textValue, this.font, this.parent.position);
     }
 }

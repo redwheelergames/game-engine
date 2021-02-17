@@ -24,8 +24,8 @@ public class Collider implements Component {
 
     // Check if this collider has collided with passed in collider
     public boolean hasCollided(Collider collider) {
-        Vector2D thisPosition = this.parent.getPosition();
-        Vector2D colliderPosition = collider.parent.getPosition();
+        Vector2D thisPosition = this.parent.position;
+        Vector2D colliderPosition = collider.parent.position;
         Vector2D distanceVector = thisPosition.subtract(colliderPosition);
         double distance = distanceVector.magnitude();
         if (distance < this.radius + collider.radius) {

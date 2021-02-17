@@ -55,7 +55,7 @@ public class Animation implements Component {
                     this.frameIndex++;
                 }
             }
-            this.parent.game.canvas.drawSprite(this.frames.get(this.frameIndex), this.parent.getPosition(), this.parent.scale, this.parent.getRotation());
+            this.parent.game.canvas.drawSprite(this.frames.get(this.frameIndex), this.parent.position, this.parent.scale, this.parent.rotation);
         }
     }
 }
