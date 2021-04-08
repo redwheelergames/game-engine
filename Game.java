@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -144,9 +145,13 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
             this.buffer.fillRect(0, 0, Game.this.windowWidth, Game.this.windowHeight);
         }
 
+        // Draw Text centered at position
         public void drawText(String text, Font font, Vector2D position) {
+            FontMetrics metrics = this.buffer.getFontMetrics(font);
+            int x = (int)Math.rint(position.x - metrics.stringWidth(text)/2);
+            int y = (int)Math.rint(Game.this.windowHeight - position.y - metrics.getHeight()/2);
             this.buffer.setFont(font);
-            this.buffer.drawString(text, (int)Math.rint(position.x), (int)Math.rint(position.y));
+            this.buffer.drawString(text, x, y);
         }
 
         public void drawSprite(BufferedImage sprite, Vector2D position, Vector2D scale, int rotation) {
