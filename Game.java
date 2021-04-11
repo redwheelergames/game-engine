@@ -14,6 +14,7 @@ import java.awt.FontMetrics;
 import java.util.Date;
 import java.util.HashMap;
 import java.awt.Dimension;
+import java.awt.Point;
 
 public class Game extends JFrame implements KeyListener, MouseListener, MouseMotionListener, ActionListener{
 
@@ -87,8 +88,10 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
     }
 
     public void mouseMoved(MouseEvent e) {
-        this.mousePosition.x = e.getX();
-        this.mousePosition.y = this.windowHeight - e.getY();
+        // Get the mouse position relative to the canvas
+        Point mousePosition = this.canvas.getMousePosition();
+        this.mousePosition.x = mousePosition.x;
+        this.mousePosition.y = this.windowHeight - mousePosition.y;
     }
 
     public void mouseClicked(MouseEvent e) {
