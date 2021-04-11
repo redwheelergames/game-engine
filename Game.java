@@ -13,6 +13,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.util.Date;
 import java.util.HashMap;
+import java.awt.Dimension;
 
 public class Game extends JFrame implements KeyListener, MouseListener, MouseMotionListener, ActionListener{
 
