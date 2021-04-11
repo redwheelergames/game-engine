@@ -15,11 +15,8 @@ import java.util.HashMap;
 
 public class Game extends JFrame implements KeyListener, MouseListener, MouseMotionListener, ActionListener{
 
-    public static final int TITLE_SIZE = 39; // Constant that accounts for the window title bar
-
     public int windowWidth;
     public int windowHeight;
-
     public Canvas canvas;
     public KeyMap wasPressed;
     public KeyMap wasReleased;
@@ -34,7 +31,8 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
     public Game(int windowWidth, int windowHeight) {
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-        this.setSize(this.windowWidth, this.windowHeight+TITLE_SIZE);
+        this.getContentPane().setPreferredSize(new Dimension(this.windowWidth, this.windowHeight));
+        this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setFocusable(true);
         this.requestFocusInWindow();
