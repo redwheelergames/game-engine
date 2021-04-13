@@ -151,7 +151,7 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
         public void drawText(String text, Font font, Vector2D position) {
             FontMetrics metrics = this.buffer.getFontMetrics(font);
             int x = (int)Math.rint(position.x - metrics.stringWidth(text)/2);
-            int y = (int)Math.rint(Game.this.windowHeight - position.y - metrics.getHeight()/2);
+            int y = (int)Math.rint(Game.this.windowHeight - position.y + metrics.getHeight()/2);
             this.buffer.setFont(font);
             this.buffer.drawString(text, x, y);
         }
