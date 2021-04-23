@@ -20,7 +20,10 @@ public class Text implements Component {
         this.parent = parent;
         this.textValue = textValue;
         try {
-            Font defaultFont = Font.createFont(Font.TRUETYPE_FONT, new File(fontPath));
+            Font defaultFont = Font.createFont(
+                    Font.TRUETYPE_FONT,
+                    getClass().getClassLoader().getResourceAsStream(fontPath)
+            );
             this.font = defaultFont.deriveFont(Font.PLAIN, fontSize);
         }
         catch (Exception e) {

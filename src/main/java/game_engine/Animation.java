@@ -27,10 +27,11 @@ public class Animation implements Component {
         // attempt to read all image paths 
         for (String imagePath: imagePaths) {
             try {
-                frames.add(ImageIO.read(new File(imagePath)));
+                var frame = getClass().getClassLoader().getResourceAsStream(imagePath);
+                frames.add(ImageIO.read(frame));
             } 
             catch (Exception e) {
-                System.out.println("Unable to read in image file: " + imagePath + ".");
+                System.out.println("Unable to read in image file: " + imagePath + "");
             }
         }
         this.frameIndex = 0;
