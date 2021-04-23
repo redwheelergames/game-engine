@@ -10,16 +10,16 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.util.Date;
 import java.util.HashMap;
+import java.awt.Dimension;
+import java.awt.Point;
 
 public class Game extends JFrame implements KeyListener, MouseListener, MouseMotionListener, ActionListener{
 
-    public static final int TITLE_SIZE = 39; // Constant that accounts for the window title bar
-
     public int windowWidth;
     public int windowHeight;
-
     public Canvas canvas;
     public KeyMap wasPressed;
     public KeyMap wasReleased;
@@ -34,7 +34,8 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
     public Game(int windowWidth, int windowHeight) {
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-        this.setSize(this.windowWidth, this.windowHeight+TITLE_SIZE);
+        this.getContentPane().setPreferredSize(new Dimension(this.windowWidth, this.windowHeight));
+        this.pack();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setFocusable(true);
         this.requestFocusInWindow();
@@ -87,8 +88,10 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
     }
 
     public void mouseMoved(MouseEvent e) {
-        this.mousePosition.x = e.getX();
-        this.mousePosition.y = this.windowHeight - e.getY();
+        // Get the mouse position relative to the canvas
+        Point mousePosition = this.canvas.getMousePosition();
+        this.mousePosition.x = mousePosition.x;
+        this.mousePosition.y = this.windowHeight - mousePosition.y;
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -144,9 +147,13 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
             this.buffer.fillRect(0, 0, Game.this.windowWidth, Game.this.windowHeight);
         }
 
+        // Draw Text centered at position
         public void drawText(String text, Font font, Vector2D position) {
+            FontMetrics metrics = this.buffer.getFontMetrics(font);
+            int x = (int)Math.rint(position.x - metrics.stringWidth(text)/2);
+            int y = (int)Math.rint(Game.this.windowHeight - position.y + metrics.getHeight()/2);
             this.buffer.setFont(font);
-            this.buffer.drawString(text, (int)Math.rint(position.x), (int)Math.rint(position.y));
+            this.buffer.drawString(text, x, y);
         }
 
         public void drawSprite(BufferedImage sprite, Vector2D position, Vector2D scale, int rotation) {
