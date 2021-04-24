@@ -39,7 +39,7 @@ public class Collider implements Component {
     public void update() {
         // If no groups are specified, check all gameObjects in the scene
         if (this.groups.size() == 0) {
-            ArrayList<GameObject> gameObjects = this.parent.scene.gameObjects;
+            ArrayList<GameObject> gameObjects = this.parent.game.sceneManager.gameObjects;
             for (GameObject gameObject: gameObjects) {
                 ArrayList<Collider> colliders = gameObject.getComponents(Collider.class);
                 for (Collider collider: colliders) {
@@ -53,7 +53,7 @@ public class Collider implements Component {
         else {
             // Iterate through all specified groups
             for (String groupName : this.groups) {
-                ArrayList<GameObject> gameObjects = this.parent.scene.getGroup(groupName);
+                var gameObjects = this.parent.game.sceneManager.getGroup(groupName);
                 for (GameObject gameObject: gameObjects) {
                     // Get all colliders on gameObject
                     ArrayList<Collider> colliders = gameObject.getComponents(Collider.class);

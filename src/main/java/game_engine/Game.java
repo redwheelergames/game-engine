@@ -29,7 +29,7 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
     private long lastTime;
     public double deltaTime;
 
-    public Scene currentScene;
+    public SceneManager sceneManager;
 
     public Game(int windowWidth, int windowHeight) {
         this.windowWidth = windowWidth;
@@ -49,28 +49,16 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
         addMouseMotionListener(this);
         addMouseListener(this);
 
-        this.timer = new Timer(1, this); 
-    }
+        this.timer = new Timer(1, this);
 
-    public void setScene(Scene scene) {
-        this.currentScene = scene;
-        this.currentScene.load(this);
-    }
-
-    public void changeScene(String transitionName) {
-        this.currentScene = this.currentScene.transition(transitionName);
-        this.currentScene.load(this);
+        this.sceneManager = new SceneManager();
     }
 
     public void actionPerformed(ActionEvent e){
         Date date = new Date();
         this.deltaTime = (date.getTime() - this.lastTime) / 1000.0;
         this.lastTime = date.getTime();
-        for (GameObject gameObject: this.currentScene.gameObjects) {
-            if (gameObject.active) {
-               gameObject.update(); 
-            }
-        }
+        this.sceneManager.updateGameObjects(this);
         this.wasReleased.reset();
         this.canvas.repaint();
     } 
