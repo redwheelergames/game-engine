@@ -54,7 +54,7 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
         this.sceneManager = new SceneManager();
     }
 
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e) {
         Date date = new Date();
         this.deltaTime = (date.getTime() - this.lastTime) / 1000.0;
         this.lastTime = date.getTime();
