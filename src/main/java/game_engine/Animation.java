@@ -31,7 +31,7 @@ public class Animation implements Component {
                 frames.add(ImageIO.read(frame));
             } 
             catch (Exception e) {
-                System.out.println("Unable to read in image file: " + imagePath + "");
+                System.out.println("Unable to read in image file: " + imagePath);
             }
         }
         this.frameIndex = 0;
