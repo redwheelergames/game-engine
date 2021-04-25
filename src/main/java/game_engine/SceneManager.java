@@ -1,5 +1,6 @@
 package game_engine;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,8 @@ public class SceneManager {
     private ArrayList<GameObject> removedObjects;
     private ArrayList<GameObject> addedObjects;
     private HashMap<String, ArrayList<GameObject>> groups;
+    private ArrayList<String> addedGroups;
+    private final String DEFAULT_GROUP = new String();
 
     public Scene nextScene;
 
@@ -16,6 +19,7 @@ public class SceneManager {
         this.gameObjects = new ArrayList<GameObject>();
         this.removedObjects = new ArrayList<GameObject>();
         this.addedObjects = new ArrayList<GameObject>();
+        this.addedGroups = new ArrayList<String>();
         this.groups = new HashMap<String, ArrayList<GameObject>>();
         this.nextScene = null;
     }
@@ -26,27 +30,26 @@ public class SceneManager {
 
     public void addGameObject(GameObject object){
         this.addedObjects.add(object);
+        this.addedGroups.add(this.DEFAULT_GROUP);
     }
 
     // Add a gameObject to the scene with one group
     public void addGameObject (GameObject gameObject, String groupName) {
-        this.addGameObject(gameObject);
-
-        ArrayList<GameObject> group;
-        // Get list of objects in group if groupName is found
-        if (this.groups.containsKey(groupName)) {
-            group = this.groups.get(groupName);
-        }
-        // Add new list to groupss if groupName is not found
-        else {
-            group = new ArrayList<GameObject> ();
-            this.groups.put(groupName, group);
-        }
-        // Check if group already contains reference to gameObject
-        if (!group.contains(gameObject)) {
-            group.add(gameObject);
-        }
+        this.addedObjects.add(gameObject);
+        this.addedGroups.add(groupName);
     }
+
+        //TODO: Delete code
+//        if (this.groups.containsKey(groupName)) {
+//            group = this.groups.get(groupName);
+//        }
+//        // Add new list to groupss if groupName is not found
+//        else {
+//            group = new ArrayList<GameObject> ();
+//            this.groups.put(groupName, group);
+//        }
+
+//    }
 
     // Add a gameObject to the scene with list groups
     public void addGameObject (GameObject gameObject, List<String> groupNames) {
@@ -75,25 +78,54 @@ public class SceneManager {
 
     public void updateGameObjects(Game game){
         if(this.nextScene != null){
+            //Clear all data structures for scene management
             this.gameObjects.clear();
             this.removedObjects.clear();
             this.addedObjects.clear();
+            this.addedGroups.clear();
+            this.groups.clear();
 
+            //load the new scene
             this.nextScene.load(game);
+
             this.nextScene = null;
         }
 
-        else{
-            this.gameObjects.removeAll(this.removedObjects);
-            this.gameObjects.addAll(this.addedObjects);
-            this.removedObjects.clear();
-            this.addedObjects.clear();
+        //Update the game objects in the scene
+        //If number of added groups and game objects differ
+        //something went really wrong
+        assert this.addedGroups.size() == this.addedObjects.size();
 
-            for(GameObject gameObject: this.gameObjects) {
-                if (gameObject.active) {
-                    gameObject.update();
-                }
+        //Start by removing requested objects from scene
+        this.gameObjects.removeAll(this.removedObjects);
+
+        //Next add requested game objects to the scene
+        //And add game object to correct group
+        for(int i=0; i<this.addedGroups.size(); i++){
+            var groupName = this.addedGroups.get(i);
+            var gameObject = this.addedObjects.get(i);
+
+            this.groups.putIfAbsent(groupName, new ArrayList<GameObject>());
+
+            // Check if `GameObject` reference has already been added to scene
+            if(!this.gameObjects.contains(gameObject)) {
+                this.gameObjects.add(gameObject);
             }
+
+            // Check if group already contains reference to gameObject
+            if (!this.groups.get(groupName).contains(gameObject)) {
+                this.groups.get(groupName).add(gameObject);
+            }
+        }
+
+        //Clear old requests for game objects to be added or removed from scene
+        this.addedObjects.clear();
+        this.addedGroups.clear();
+        this.removedObjects.clear();
+
+        //Update all of the game objects
+        for(GameObject gameObject: this.gameObjects){
+            gameObject.update();
         }
     }
 }
