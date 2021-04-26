@@ -6,7 +6,7 @@ game-engine is a simple game engine used to create 2D games with [Java](https://
 This project uses java version 16 and [Maven](https://maven.apache.org/).
 In order to compile from source you must first install these dependencies. 
 
-In order to compile or build the project you simply need to run the corresponding Maven phase in the projects root
+In order to compile or build the project you simply need to run the corresponding Maven phase in the project's root
 directory.
 
 ```console
