@@ -39,18 +39,6 @@ public class SceneManager {
         this.addedGroups.add(groupName);
     }
 
-        //TODO: Delete code
-//        if (this.groups.containsKey(groupName)) {
-//            group = this.groups.get(groupName);
-//        }
-//        // Add new list to groupss if groupName is not found
-//        else {
-//            group = new ArrayList<GameObject> ();
-//            this.groups.put(groupName, group);
-//        }
-
-//    }
-
     // Add a gameObject to the scene with list groups
     public void addGameObject (GameObject gameObject, List<String> groupNames) {
         this.addGameObject(gameObject);
@@ -125,7 +113,9 @@ public class SceneManager {
 
         //Update all of the game objects
         for(GameObject gameObject: this.gameObjects){
-            gameObject.update();
+            if(gameObject.active) {
+                gameObject.update();
+            }
         }
     }
 }
