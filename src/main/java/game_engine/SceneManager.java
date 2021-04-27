@@ -118,4 +118,14 @@ public class SceneManager {
             }
         }
     }
+
+    public <T extends Component> ArrayList<GameObject> getComponents(Class<T> componentType){
+        var matches = this.gameObjects
+                .stream()
+                .filter(gameObject -> !gameObject.getComponents(componentType).isEmpty())
+                .filter(gameObject -> gameObject.active)
+                .toList();
+
+        return new ArrayList<>(matches);
+    }
 }
