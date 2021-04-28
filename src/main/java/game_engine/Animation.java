@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Animation implements Component {
 
     public GameObject parent;
-
+    public BufferedImage currentFrame;
     public ArrayList<BufferedImage> frames;
     public int frameCount;  // Number of frames
     public int frameIndex;  // Index of current frame
@@ -34,7 +34,11 @@ public class Animation implements Component {
                 System.out.println("Unable to read in image file: " + imagePath);
             }
         }
+        if (this.repeat) {
+
+        }
         this.frameIndex = 0;
+        this.currentFrame = this.frames.get(this.frameIndex);
         this.frameCount = this.frames.size();
     }
 
@@ -44,7 +48,7 @@ public class Animation implements Component {
             if (this.lastChange == this.frameLength) {
                 this.lastChange = 0;
                 // If the last frame is reached
-                if (this.frameIndex == this.frames.size()-1) {
+                if (this.frameIndex == this.frames.size() - 1) {
                     if (this.repeat) {
                         this.frameIndex = 0;
                     }
@@ -56,7 +60,13 @@ public class Animation implements Component {
                     this.frameIndex++;
                 }
             }
-            this.parent.game.canvas.drawSprite(this.frames.get(this.frameIndex), this.parent.position, this.parent.scale, this.parent.rotation);
+            if (this.finished) {
+                // Empty image - display nothing
+                this.currentFrame = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+            }
+            else {
+                this.currentFrame = this.frames.get(this.frameIndex);
+            }
         }
     }
 }

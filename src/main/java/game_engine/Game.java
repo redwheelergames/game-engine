@@ -1,16 +1,8 @@
 package game_engine;
 
-import java.io.*;
 import javax.swing.*;
-import java.awt.geom.*;
 import java.lang.Math;
 import java.awt.event.*;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.util.Date;
 import java.util.HashMap;
 import java.awt.Dimension;
@@ -20,7 +12,7 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
 
     public int windowWidth;
     public int windowHeight;
-    public Canvas canvas;
+    private Canvas canvas;
     public KeyMap wasPressed;
     public KeyMap wasReleased;
     public Vector2D mousePosition;
@@ -30,6 +22,7 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
     public double deltaTime;
 
     public SceneManager sceneManager;
+    public RenderingSystem renderingSystem;
 
     public Game(int windowWidth, int windowHeight) {
         this.windowWidth = windowWidth;
@@ -39,19 +32,17 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setFocusable(true);
         this.requestFocusInWindow();
-        this.canvas = new Canvas();
-        this.add(this.canvas);
-        
+
+        this.sceneManager = new SceneManager();
+        this.renderingSystem = new RenderingSystem(this);
+        this.canvas = renderingSystem.canvas;
+        this.add(renderingSystem.canvas);
+
         this.mousePosition = new Vector2D (0, 0);
         this.wasPressed = new KeyMap();
         this.wasReleased = new KeyMap();
-        addKeyListener(this);
-        addMouseMotionListener(this);
-        addMouseListener(this);
 
         this.timer = new Timer(1, this);
-
-        this.sceneManager = new SceneManager();
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -59,11 +50,14 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
         this.deltaTime = (date.getTime() - this.lastTime) / 1000.0;
         this.lastTime = date.getTime();
         this.sceneManager.updateGameObjects(this);
+        this.renderingSystem.render();
         this.wasReleased.reset();
-        this.canvas.repaint();
     } 
 
     public void run() {
+        addKeyListener(this);
+        addMouseMotionListener(this);
+        addMouseListener(this);
         this.setVisible(true);
         Date date = new Date();
         this.lastTime = date.getTime();
@@ -114,48 +108,6 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
     public void keyReleased(KeyEvent e) {
         this.wasPressed.setKey(e.getKeyCode(), false);
         this.wasReleased.setKey(e.getKeyCode(), true);
-    }
-
-    // Double buffered drawing area
-    class Canvas extends JPanel {
-        private AffineTransform transformDefault;
-        private Image offscreen;
-        private Graphics2D buffer;
-
-        public Canvas() {
-            this.offscreen = new BufferedImage(Game.this.windowWidth, Game.this.windowHeight, BufferedImage.TYPE_INT_RGB);
-            this.buffer = (Graphics2D)this.offscreen.getGraphics();
-            this.transformDefault = this.buffer.getTransform();
-        }
-
-        public void paintComponent(Graphics g) {
-            g.drawImage(this.offscreen, 0, 0, this);
-            // Clear bufffer
-            this.buffer.setColor(getBackground());
-            this.buffer.fillRect(0, 0, Game.this.windowWidth, Game.this.windowHeight);
-        }
-
-        // Draw Text centered at position
-        public void drawText(String text, Font font, Vector2D position) {
-            FontMetrics metrics = this.buffer.getFontMetrics(font);
-            int x = (int)Math.rint(position.x - metrics.stringWidth(text)/2);
-            int y = (int)Math.rint(Game.this.windowHeight - position.y + metrics.getHeight()/2);
-            this.buffer.setFont(font);
-            this.buffer.drawString(text, x, y);
-        }
-
-        public void drawSprite(BufferedImage sprite, Vector2D position, Vector2D scale, int rotation) {
-            int width = (int)(sprite.getWidth() * scale.x);
-            int height = (int)(sprite.getHeight() * scale.y);
-            int x = (int)Math.rint(position.x - width/2);
-            int y = (int)Math.rint(Game.this.windowHeight - position.y - height/2);
-            // Rotate the given rotation offset by 90 (90 means no rotation)
-            int translateX = (int)Math.rint(position.x);
-            int translateY = (int)Math.rint(Game.this.windowHeight - position.y);
-            this.buffer.rotate(Math.toRadians(-1*(rotation-90)), translateX, translateY);
-            this.buffer.drawImage(sprite, x, y, width, height, null);
-            this.buffer.setTransform(this.transformDefault);
-        }
     }
 
     static public class KeyMap {

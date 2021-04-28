@@ -21,6 +21,6 @@ public class Sprite implements Component {
     }
 
     public void update() {
-        this.parent.game.canvas.drawSprite(this.sprite, this.parent.position, this.parent.scale, this.parent.rotation);
+        return;
     }
 }
