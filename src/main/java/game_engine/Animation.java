@@ -9,22 +9,25 @@ import java.util.ArrayList;
 public class Animation implements Component {
 
     public GameObject parent;
-    public BufferedImage currentFrame;
-    public ArrayList<BufferedImage> frames;
-    public int frameCount;  // Number of frames
-    public int frameIndex;  // Index of current frame
-    public int frameLength; // Amount of frames each sprite should be played for
+    public Sprite spriteComponent; // Sprite component that will draw animation frames
+    private ArrayList<BufferedImage> frames;
+    private int frameCount;  // Number of frames
+    private int frameIndex;  // Index of current frame
+    private int frameLength; // Amount of frames each sprite should be played for
 
-    public boolean repeat;
-    public boolean finished;
+    private boolean repeat;
+    private boolean finished;
     private int lastChange; // How many frames have passed since last sprite change
 
     public Animation (GameObject parent, List<String> imagePaths, int frameLength, boolean repeat) {
         this.parent = parent;
+        // Create a new sprite component that frames will be drawn from
+        this.spriteComponent = new Sprite (this.parent);
+        this.parent.addComponent(this.spriteComponent);
         this.frameLength = frameLength;
         this.repeat = repeat;
         this.frames = new ArrayList<BufferedImage> ();
-        // attempt to read all image paths 
+        // Attempt to read all image paths
         for (String imagePath: imagePaths) {
             try {
                 var frame = getClass().getClassLoader().getResourceAsStream(imagePath);
@@ -38,7 +41,6 @@ public class Animation implements Component {
 
         }
         this.frameIndex = 0;
-        this.currentFrame = this.frames.get(this.frameIndex);
         this.frameCount = this.frames.size();
     }
 
@@ -62,10 +64,10 @@ public class Animation implements Component {
             }
             if (this.finished) {
                 // Empty image - display nothing
-                this.currentFrame = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+                this.spriteComponent.sprite = Sprite.DEFAULT_SPRITE;
             }
             else {
-                this.currentFrame = this.frames.get(this.frameIndex);
+                this.spriteComponent.sprite = this.frames.get(this.frameIndex);
             }
         }
     }

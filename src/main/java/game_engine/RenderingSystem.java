@@ -39,25 +39,8 @@ public class RenderingSystem {
         }
     }
 
-    private void renderAnimations () {
-        ArrayList<GameObject> hasAnimation = this.game.sceneManager.getComponents(Animation.class);
-        ArrayList<Animation> animationComponents = new ArrayList<Animation> ();
-        for (GameObject gameObject : hasAnimation) {
-            animationComponents.addAll(gameObject.getComponents(Animation.class));
-        }
-        for (Animation animationComponent: animationComponents) {
-            this.canvas.drawSprite(
-                    animationComponent.currentFrame,
-                    animationComponent.parent.position,
-                    animationComponent.parent.scale,
-                    animationComponent.parent.rotation);
-        }
-
-    }
-
     public void render () {
         this.renderSprites();
-        this.renderAnimations();
         this.renderText();
         this.canvas.repaint();
     }
