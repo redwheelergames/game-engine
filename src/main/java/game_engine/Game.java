@@ -23,6 +23,7 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
 
     public SceneManager sceneManager;
     public RenderingSystem renderingSystem;
+    public PhysicsSystem physicsSystem;
 
     public Game(int windowWidth, int windowHeight) {
         this.windowWidth = windowWidth;
@@ -35,6 +36,7 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
 
         this.sceneManager = new SceneManager();
         this.renderingSystem = new RenderingSystem(this);
+        this.physicsSystem = new PhysicsSystem(this);
         this.canvas = renderingSystem.canvas;
         this.add(renderingSystem.canvas);
 
@@ -50,6 +52,7 @@ public class Game extends JFrame implements KeyListener, MouseListener, MouseMot
         this.deltaTime = (date.getTime() - this.lastTime) / 1000.0;
         this.lastTime = date.getTime();
         this.sceneManager.updateGameObjects(this);
+        this.physicsSystem.stepPhysics();
         this.renderingSystem.render();
         this.wasReleased.reset();
     } 
