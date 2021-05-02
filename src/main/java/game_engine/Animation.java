@@ -9,29 +9,36 @@ import java.util.ArrayList;
 public class Animation implements Component {
 
     public GameObject parent;
+    public Sprite spriteComponent; // Sprite component that will draw animation frames
+    private ArrayList<BufferedImage> frames;
+    private int frameCount;  // Number of frames
+    private int frameIndex;  // Index of current frame
+    private int frameLength; // Amount of frames each sprite should be played for
 
-    public ArrayList<BufferedImage> frames;
-    public int frameCount;  // Number of frames
-    public int frameIndex;  // Index of current frame
-    public int frameLength; // Amount of frames each sprite should be played for
-
-    public boolean repeat;
-    public boolean finished;
+    private boolean repeat;
+    private boolean finished;
     private int lastChange; // How many frames have passed since last sprite change
 
     public Animation (GameObject parent, List<String> imagePaths, int frameLength, boolean repeat) {
         this.parent = parent;
+        // Create a new sprite component that frames will be drawn from
+        this.spriteComponent = new Sprite (this.parent);
+        this.parent.addComponent(this.spriteComponent);
         this.frameLength = frameLength;
         this.repeat = repeat;
         this.frames = new ArrayList<BufferedImage> ();
-        // attempt to read all image paths 
+        // Attempt to read all image paths
         for (String imagePath: imagePaths) {
             try {
-                frames.add(ImageIO.read(new File(imagePath)));
+                var frame = getClass().getClassLoader().getResourceAsStream(imagePath);
+                frames.add(ImageIO.read(frame));
             } 
             catch (Exception e) {
-                System.out.println("Unable to read in image file: " + imagePath + ".");
+                System.out.println("Unable to read in image file: " + imagePath);
             }
+        }
+        if (this.repeat) {
+
         }
         this.frameIndex = 0;
         this.frameCount = this.frames.size();
@@ -43,7 +50,7 @@ public class Animation implements Component {
             if (this.lastChange == this.frameLength) {
                 this.lastChange = 0;
                 // If the last frame is reached
-                if (this.frameIndex == this.frames.size()-1) {
+                if (this.frameIndex == this.frames.size() - 1) {
                     if (this.repeat) {
                         this.frameIndex = 0;
                     }
@@ -55,7 +62,13 @@ public class Animation implements Component {
                     this.frameIndex++;
                 }
             }
-            this.parent.game.canvas.drawSprite(this.frames.get(this.frameIndex), this.parent.position, this.parent.scale, this.parent.rotation);
+            if (this.finished) {
+                // Empty image - display nothing
+                this.spriteComponent.sprite = Sprite.DEFAULT_SPRITE;
+            }
+            else {
+                this.spriteComponent.sprite = this.frames.get(this.frameIndex);
+            }
         }
     }
 }

@@ -36,36 +36,7 @@ public class Collider implements Component {
         }
     }
 
-    public void update() {
-        // If no groups are specified, check all gameObjects in the scene
-        if (this.groups.size() == 0) {
-            ArrayList<GameObject> gameObjects = this.parent.scene.gameObjects;
-            for (GameObject gameObject: gameObjects) {
-                ArrayList<Collider> colliders = gameObject.getComponents(Collider.class);
-                for (Collider collider: colliders) {
-                    if (collider != this && hasCollided(collider)) {
-                        this.onCollide(collider);
-                    }
-                }
-            }
-        }
-        // If groups are specified
-        else {
-            // Iterate through all specified groups
-            for (String groupName : this.groups) {
-                ArrayList<GameObject> gameObjects = this.parent.scene.getGroup(groupName);
-                for (GameObject gameObject: gameObjects) {
-                    // Get all colliders on gameObject
-                    ArrayList<Collider> colliders = gameObject.getComponents(Collider.class);
-                    for (Collider collider: colliders) {
-                        if (collider != this && hasCollided(collider)) {
-                            this.onCollide(collider, groupName);
-                        }
-                    }
-                }
-            }
-        }
-    }
+    public void update() {}
 
     // Override to provide unique collision behavior
     public void onCollide(Collider collider) {
