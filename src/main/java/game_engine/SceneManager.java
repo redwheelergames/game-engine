@@ -110,11 +110,10 @@ public class SceneManager {
         this.addedGroups.clear();
         this.removedObjects.clear();
 
-        //Update all of the game objects
-        for(GameObject gameObject: this.gameObjects){
-            if(gameObject.active) {
-                gameObject.update();
-            }
+        //Update all Script components
+        ArrayList<Script> scripts = this.getComponents(Script.class);
+        for (Script script : scripts) {
+            script.update();
         }
     }
 

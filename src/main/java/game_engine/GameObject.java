@@ -33,7 +33,7 @@ public class GameObject {
         this.scale = new Vector2D(scaleX, scaleY);
         this.components = new ArrayList<Component>();
     }
-    
+
     // returns a unit vector of the object's forward facing direction
     public Vector2D getForwardVector() {
         double rotationRadians = Math.toRadians(this.rotation);
@@ -71,12 +71,5 @@ public class GameObject {
             }
         }
         return matchingComponents;
-    }
-
-    public void update() {
-        ArrayList<Script> scripts = this.getComponents(Script.class);
-        for (Script script : scripts) {
-            script.update();
-        }
     }
 }
