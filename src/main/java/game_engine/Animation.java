@@ -6,9 +6,8 @@ import javax.imageio.ImageIO;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Animation implements Component {
+public class Animation extends Script {
 
-    public GameObject parent;
     public Sprite spriteComponent; // Sprite component that will draw animation frames
     private ArrayList<BufferedImage> frames;
     private int frameCount;  // Number of frames
@@ -19,11 +18,10 @@ public class Animation implements Component {
     private boolean finished;
     private int lastChange; // How many frames have passed since last sprite change
 
-    public Animation (GameObject parent, List<String> imagePaths, int frameLength, boolean repeat) {
-        this.parent = parent;
+    public Animation (GameObject gameObject, List<String> imagePaths, int frameLength, boolean repeat) {
+        super(gameObject);
         // Create a new sprite component that frames will be drawn from
-        this.spriteComponent = new Sprite (this.parent);
-        this.parent.addComponent(this.spriteComponent);
+        this.spriteComponent = new Sprite(this.gameObject);
         this.frameLength = frameLength;
         this.repeat = repeat;
         this.frames = new ArrayList<BufferedImage> ();
@@ -37,13 +35,11 @@ public class Animation implements Component {
                 System.out.println("Unable to read in image file: " + imagePath);
             }
         }
-        if (this.repeat) {
-
-        }
         this.frameIndex = 0;
         this.frameCount = this.frames.size();
     }
 
+    @Override
     public void update() {
         if (!this.finished) {
             this.lastChange++;

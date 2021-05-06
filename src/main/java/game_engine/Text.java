@@ -3,21 +3,20 @@ package game_engine;
 import java.awt.Font;
 import java.io.File;
 
-public class Text implements Component {
+public class Text extends Component {
 
     public String textValue;
     public Font font;
-    public GameObject parent; 
 
-    public Text(GameObject parent, String textValue, int fontSize) {
-        this.parent = parent;
+    public Text(GameObject gameObject, String textValue, int fontSize) {
+        super(gameObject);
         this.textValue = textValue;
         this.font = new Font("TimesRoman", Font.PLAIN, fontSize);
     }
 
     // Construct Text component with custom font file
-    public Text(GameObject parent, String textValue, int fontSize, String fontPath) {
-        this.parent = parent;
+    public Text(GameObject gameObject, String textValue, int fontSize, String fontPath) {
+        super(gameObject);
         this.textValue = textValue;
         try {
             Font defaultFont = Font.createFont(
@@ -31,7 +30,4 @@ public class Text implements Component {
         }
     }
 
-    public void update() {
-        return;
-    }
 }

@@ -74,8 +74,9 @@ public class GameObject {
     }
 
     public void update() {
-        for (Component component : components) {
-            component.update();
+        ArrayList<Script> scripts = this.getComponents(Script.class);
+        for (Script script : scripts) {
+            script.update();
         }
     }
 }

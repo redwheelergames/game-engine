@@ -20,7 +20,7 @@ public class RenderingSystem {
             textComponents.addAll(gameObject.getComponents(Text.class));
         }
         for (Text textComponent: textComponents) {
-            this.canvas.drawText(textComponent.textValue, textComponent.font, textComponent.parent.position);
+            this.canvas.drawText(textComponent.textValue, textComponent.font, textComponent.gameObject.position);
         }
     }
 
@@ -33,9 +33,9 @@ public class RenderingSystem {
         for (Sprite spriteComponent: spriteComponents) {
             this.canvas.drawSprite(
                     spriteComponent.sprite,
-                    spriteComponent.parent.position,
-                    spriteComponent.parent.scale,
-                    spriteComponent.parent.rotation);
+                    spriteComponent.gameObject.position,
+                    spriteComponent.gameObject.scale,
+                    spriteComponent.gameObject.rotation);
         }
     }
 
