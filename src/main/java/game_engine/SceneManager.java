@@ -75,7 +75,6 @@ public class SceneManager {
 
             //load the new scene
             this.nextScene.load(game);
-
             this.nextScene = null;
         }
 
@@ -119,13 +118,11 @@ public class SceneManager {
         }
     }
 
-    public <T extends Component> ArrayList<GameObject> getComponents(Class<T> componentType){
-        var matches = this.gameObjects
-                .stream()
-                .filter(gameObject -> !gameObject.getComponents(componentType).isEmpty())
-                .filter(gameObject -> gameObject.active)
-                .toList();
-
-        return new ArrayList<>(matches);
+    public <T extends Component> ArrayList<T> getComponents(Class<T> componentType){
+        ArrayList<T> matchingComponents = new ArrayList<T> ();
+        for (GameObject gameObject : gameObjects) {
+            matchingComponents.addAll(gameObject.getComponents(componentType));
+        }
+        return matchingComponents;
     }
 }
