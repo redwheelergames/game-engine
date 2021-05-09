@@ -15,7 +15,7 @@ public class RenderingSystem {
     private void renderText () {
         ArrayList<Text> textComponents = this.game.sceneManager.getComponents(Text.class);
         for (Text textComponent: textComponents) {
-            this.canvas.drawText(textComponent.textValue, textComponent.font, textComponent.gameObject.position);
+            this.canvas.drawText(textComponent.textValue, textComponent.font, textComponent.gameObject.transform.position);
         }
     }
 
@@ -24,9 +24,9 @@ public class RenderingSystem {
         for (Sprite spriteComponent: spriteComponents) {
             this.canvas.drawSprite(
                     spriteComponent.sprite,
-                    spriteComponent.gameObject.position,
-                    spriteComponent.gameObject.scale,
-                    spriteComponent.gameObject.rotation);
+                    spriteComponent.gameObject.transform.position,
+                    spriteComponent.gameObject.transform.scale,
+                    spriteComponent.gameObject.transform.rotation);
         }
     }
 

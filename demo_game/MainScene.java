@@ -4,7 +4,7 @@ import java.util.ArrayList;
 class MainScene extends Scene {
     @Override
     public void load (Game game) {
-        GameObject player = new GameObject(game, this, true, game.windowWidth/2, game.windowHeight/2, 2, 2, 90);
+        GameObject player = new GameObject(game, true, game.windowWidth/2, game.windowHeight/2, 2, 2, 90);
         ArrayList<String> framePaths = new ArrayList<String> ();
         framePaths.add("player_idle_1.png");
         framePaths.add("player_idle_2.png");

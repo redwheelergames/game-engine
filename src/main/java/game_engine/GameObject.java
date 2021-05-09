@@ -9,50 +9,31 @@ public class GameObject {
     public Vector2D position;
     public Vector2D scale;
     public int rotation;
+
     public Game game;
-    public Scene scene;
     public boolean active;
+    public Transform transform;
     private ArrayList<Component> components;
     
-    public GameObject(Game game, Scene scene, boolean active) {
+    public GameObject(Game game, boolean active) {
         this.game = game;
-        this.scene = scene;
         this.active = active;
-        this.position = new Vector2D(0, 0);
-        this.rotation = 0;
-        this.scale = new Vector2D(0, 0);
+        this.transform = new Transform();
+        this.components = new ArrayList<Component>();
+    }
+
+    public GameObject(Game game, boolean active, Transform transform) {
+        this.game = game;
+        this.active = active;
+        this.transform = transform;
         this.components = new ArrayList<Component>();
     }
     
-    public GameObject(Game game, Scene scene, boolean active, double posX, double posY, double scaleX, double scaleY, int rotation) {
+    public GameObject(Game game, boolean active, double posX, double posY, double scaleX, double scaleY, int rotation) {
         this.game = game;
-        this.scene = scene;
         this.active = active;
-        this.position = new Vector2D(posX, posY);
-        this.rotation = rotation;
-        this.scale = new Vector2D(scaleX, scaleY);
+        this.transform = new Transform(new Vector2D(posX, posY), new Vector2D(scaleX, scaleY), rotation);
         this.components = new ArrayList<Component>();
-    }
-
-    // returns a unit vector of the object's forward facing direction
-    public Vector2D getForwardVector() {
-        double rotationRadians = Math.toRadians(this.rotation);
-        return new Vector2D(Math.cos(rotationRadians), Math.sin(rotationRadians));
-    }
-
-    // return a unit vector of the object's right facing direction
-    public Vector2D getRightVector() {
-        // Get angle 90 degrees clockwise of forward angle
-        int rightAngle = this.rotation - 90;
-        double rotationRadians = Math.toRadians(rightAngle);
-        return new Vector2D(Math.cos(rotationRadians), Math.sin(rotationRadians));
-    }
-
-    // Set rotation based on forward facing vector
-    public void setForwardVector(Vector2D forward) {
-        // Calculate signed angle between new forward vector and <1, 0> (0 degrees)
-        Vector2D positiveX = new Vector2D(1, 0);
-        this.rotation = (int)positiveX.angleSigned(forward);
     }
 
     // Add new component to instance
