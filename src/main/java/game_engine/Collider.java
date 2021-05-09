@@ -34,9 +34,7 @@ public class Collider extends Component {
             return false;
         }
     }
-
-    public void update() {}
-
+    
     // Override to provide unique collision behavior
     public void onCollide(Collider collider) {
         return;
