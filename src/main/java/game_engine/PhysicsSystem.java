@@ -13,44 +13,32 @@ public class PhysicsSystem {
     }
 
     public void stepPhysics(){
-        var gameObjects = this.game.sceneManager.getComponents(Collider.class);
+        var colliders = this.game.sceneManager.getComponents(Collider.class);
 
-        // If no groups are specified, check all gameObjects in the scene
-        for(GameObject gameobjectA: gameObjects) {
-            for(Collider colliderA: gameobjectA.getComponents(Collider.class)){
-                if (colliderA.groups.size() == 0) {
-                    for (GameObject gameObjectB : gameObjects) {
-                        if(gameobjectA.equals(gameObjectB)){
-                            continue;
-                        }
+        for (Collider colliderA: colliders) {
 
-                        for (Collider colliderB : gameObjectB.getComponents(Collider.class)) {
-                            if (colliderA.hasCollided(colliderB)) {
-                                colliderA.onCollide(colliderB);
-                            }
-                        }
+            ArrayList<Collider> relevantColliders;
+            // If no groups are specified, check all colliders in the scene
+            if (colliderA.groups.size() == 0) {
+                relevantColliders = colliders;
+            }
+            // If groups are specified, check only colliders on GameObjects of matching group
+            else {
+                relevantColliders = new ArrayList<Collider> ();
+                for (String groupName : colliderA.groups) {
+                    for (GameObject gameObject : this.game.sceneManager.getGroup(groupName)) {
+                        relevantColliders.addAll(gameObject.getComponents(Collider.class));
                     }
                 }
+            }
 
-                // If groups are specified
-                else {
-                    // Iterate through all specified groups
-                    for (String groupName : colliderA.groups) {
-                        for (GameObject gameObjectB : this.game.sceneManager.getGroup(groupName)) {
-                            if(gameobjectA.equals(gameObjectB)){
-                                continue;
-                            }
-
-                            // Get all colliders on gameObject
-                            for (Collider colliderB : gameObjectB.getComponents(Collider.class)) {
-                                if (colliderA.hasCollided(colliderB)) {
-                                    colliderA.onCollide(colliderB, groupName);
-                                }
-                            }
-                        }
-                    }
+            // Check for collisions with all relevant colliders
+            for (Collider colliderB : relevantColliders) {
+                if (!colliderA.equals(colliderB) && colliderA.hasCollided(colliderB)) {
+                    colliderA.onCollide(colliderB);
                 }
             }
         }
     }
+
 }
