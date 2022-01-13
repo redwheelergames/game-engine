@@ -65,7 +65,9 @@ public class SceneManager {
     }
 
     public void updateGameObjects(Game game){
+        boolean newScene = false;
         if(this.nextScene != null){
+            newScene = true;
             //Clear all data structures for scene management
             this.gameObjects.clear();
             this.removedObjects.clear();
@@ -75,7 +77,6 @@ public class SceneManager {
 
             //load the new scene
             this.nextScene.load(game);
-
             this.nextScene = null;
         }
 
@@ -111,21 +112,21 @@ public class SceneManager {
         this.addedGroups.clear();
         this.removedObjects.clear();
 
-        //Update all of the game objects
-        for(GameObject gameObject: this.gameObjects){
-            if(gameObject.active) {
-                gameObject.update();
-            }
+        //Update all Script components
+        ArrayList<Script> scripts = this.getComponents(Script.class);
+        for (Script script : scripts) {
+            if (newScene)
+                script.onSceneLoad();
+            else
+                script.update();
         }
     }
 
-    public <T extends Component> ArrayList<GameObject> getComponents(Class<T> componentType){
-        var matches = this.gameObjects
-                .stream()
-                .filter(gameObject -> !gameObject.getComponents(componentType).isEmpty())
-                .filter(gameObject -> gameObject.active)
-                .toList();
-
-        return new ArrayList<>(matches);
+    public <T extends Component> ArrayList<T> getComponents(Class<T> componentType){
+        ArrayList<T> matchingComponents = new ArrayList<T> ();
+        for (GameObject gameObject : gameObjects) {
+            matchingComponents.addAll(gameObject.getComponents(componentType));
+        }
+        return matchingComponents;
     }
 }
