@@ -65,7 +65,9 @@ public class SceneManager {
     }
 
     public void updateGameObjects(Game game){
+        boolean newScene = false;
         if(this.nextScene != null){
+            newScene = true;
             //Clear all data structures for scene management
             this.gameObjects.clear();
             this.removedObjects.clear();
@@ -113,7 +115,10 @@ public class SceneManager {
         //Update all Script components
         ArrayList<Script> scripts = this.getComponents(Script.class);
         for (Script script : scripts) {
-            script.update();
+            if (newScene)
+                script.onSceneLoad();
+            else
+                script.update();
         }
     }
 
