@@ -1,7 +1,6 @@
 package game_engine;
 
 import javax.swing.*;
-import java.lang.Math;
 import java.awt.event.*;
 import java.util.Date;
 import java.util.HashMap;

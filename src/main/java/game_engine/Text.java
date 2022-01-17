@@ -1,7 +1,6 @@
 package game_engine;
 
 import java.awt.Font;
-import java.io.File;
 
 public class Text extends Component {
 

@@ -1,7 +1,6 @@
 package game_engine;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import javax.imageio.ImageIO;
 import java.util.List;
 import java.util.ArrayList;

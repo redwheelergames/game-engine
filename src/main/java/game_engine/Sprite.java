@@ -1,7 +1,6 @@
 package game_engine;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import javax.imageio.ImageIO;
 
 public class Sprite extends Component {
@@ -11,7 +10,7 @@ public class Sprite extends Component {
 
     public Sprite(GameObject gameObject) {
         super(gameObject);
-        this.sprite = this.DEFAULT_SPRITE;
+        this.sprite = Sprite.DEFAULT_SPRITE;
     }
 
     public Sprite(GameObject gameObject, String imagePath) {
