@@ -5,10 +5,6 @@ import java.util.List;
 import java.lang.Math;
 
 public class GameObject {
-    
-    public Vector2D position;
-    public Vector2D scale;
-    public int rotation;
 
     public Game game;
     public boolean active;
