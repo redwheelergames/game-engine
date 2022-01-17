@@ -117,8 +117,10 @@ public class SceneManager {
         for (Script script : scripts) {
             if (newScene)
                 script.onSceneLoad();
-            else
-                script.update();
+            else {
+                if (script.gameObject.active)
+                    script.update();
+            }
         }
     }
 
