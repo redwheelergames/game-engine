@@ -15,18 +15,25 @@ public class RenderingSystem {
     private void renderText () {
         ArrayList<Text> textComponents = this.game.sceneManager.getComponents(Text.class);
         for (Text textComponent: textComponents) {
-            this.canvas.drawText(textComponent.textValue, textComponent.font, textComponent.gameObject.transform.position);
+            if (textComponent.gameObject.active) {
+                this.canvas.drawText(
+                                    textComponent.textValue,
+                                    textComponent.font,
+                                    textComponent.gameObject.transform.position);    
+            }
         }
     }
 
     private void renderSprites () {
         ArrayList<Sprite> spriteComponents = this.game.sceneManager.getComponents(Sprite.class);
         for (Sprite spriteComponent: spriteComponents) {
-            this.canvas.drawSprite(
-                    spriteComponent.sprite,
-                    spriteComponent.gameObject.transform.position,
-                    spriteComponent.gameObject.transform.scale,
-                    spriteComponent.gameObject.transform.rotation);
+            if (spriteComponent.gameObject.active) {
+                this.canvas.drawSprite(
+                        spriteComponent.sprite,
+                        spriteComponent.gameObject.transform.position,
+                        spriteComponent.gameObject.transform.scale,
+                        spriteComponent.gameObject.transform.rotation);
+            }
         }
     }
 

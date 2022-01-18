@@ -12,31 +12,31 @@ public class PhysicsSystem {
 
     public void stepPhysics(){
         var colliders = this.game.sceneManager.getComponents(Collider.class);
-
+        colliders.removeIf(collider -> !collider.gameObject.active);
+    
         for (Collider colliderA: colliders) {
-
-            ArrayList<Collider> relevantColliders;
             // If no groups are specified, check all colliders in the scene
             if (colliderA.groups.size() == 0) {
-                relevantColliders = colliders;
-            }
-            // If groups are specified, check only colliders on GameObjects of matching group
-            else {
-                relevantColliders = new ArrayList<Collider> ();
-                for (String groupName : colliderA.groups) {
-                    for (GameObject gameObject : this.game.sceneManager.getGroup(groupName)) {
-                        relevantColliders.addAll(gameObject.getComponents(Collider.class));
+                for (Collider colliderB : colliders) {
+                    if (!colliderA.equals(colliderB) && colliderA.hasCollided(colliderB)) {
+                        colliderA.onCollide(colliderB);
                     }
                 }
             }
-
-            // Check for collisions with all relevant colliders
-            for (Collider colliderB : relevantColliders) {
-                if (!colliderA.equals(colliderB) && colliderA.hasCollided(colliderB)) {
-                    colliderA.onCollide(colliderB);
+            // If groups are specified, check only colliders on GameObjects of matching group
+            else {
+                for (String groupName : colliderA.groups) {
+                    var activeGameObjects = this.game.sceneManager.getGroup(groupName);
+                    activeGameObjects.removeIf(gameObject -> !gameObject.active);
+                    for (GameObject gameObject : activeGameObjects) {
+                        for (Collider colliderB : gameObject.getComponents(Collider.class)) {
+                            if (!colliderA.equals(colliderB) && colliderA.hasCollided(colliderB)) {
+                                colliderA.onCollide(colliderB, groupName);
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-
 }
