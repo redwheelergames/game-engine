@@ -1,4 +1,4 @@
-package game_engine;
+package com.github.redwheelergames.gameengine;
 
 public class Script extends Component {
 

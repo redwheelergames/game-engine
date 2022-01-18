@@ -1,4 +1,4 @@
-package game_engine;
+package com.github.redwheelergames.gameengine;
 
 // Interface that all components must implement
 public class Component {

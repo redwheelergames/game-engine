@@ -1,6 +1,4 @@
-package game_engine;
-
-import java.util.ArrayList;
+package com.github.redwheelergames.gameengine;
 
 public class PhysicsSystem {
 

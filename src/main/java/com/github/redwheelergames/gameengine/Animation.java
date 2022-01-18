@@ -1,7 +1,8 @@
-package game_engine;
+package com.github.redwheelergames.gameengine;
 
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+
 import java.util.List;
 import java.util.ArrayList;
 

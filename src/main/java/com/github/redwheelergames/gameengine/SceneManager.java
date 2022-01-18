@@ -1,4 +1,4 @@
-package game_engine;
+package com.github.redwheelergames.gameengine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
